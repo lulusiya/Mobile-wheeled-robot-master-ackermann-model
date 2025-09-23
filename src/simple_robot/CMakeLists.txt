@@ -17,6 +17,7 @@ install(
 install(PROGRAMS
   scripts/move_obstacles.py
   scripts/task_executor.py
+  scripts/path_follower.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -5,14 +5,10 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
-    EmitEvent,
     IncludeLaunchDescription,
-    RegisterEventHandler,
     LogInfo,
 )
 from launch.conditions import IfCondition, UnlessCondition
-from launch.event_handlers import OnProcessExit
-from launch.events import Shutdown
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
     Command,
@@ -164,24 +160,6 @@ def generate_launch_description():
         output="screen",
     )
 
-    # ============================ 我添加的修改 S ============================
-    # 步骤1: 启动我们新创建的任务执行节点
-    # 这个节点会让机器人移动，并在任务完成后自动退出
-    task_executor_node = Node(
-        package="simple_robot",
-        executable="task_executor.py",
-        name="task_executor",
-        output="screen",
-        parameters=[
-            {
-                "goal_x": LaunchConfiguration("goal_x"),
-                "goal_y": LaunchConfiguration("goal_y"),
-                "goal_z": LaunchConfiguration("goal_z"),
-            }
-        ],
-    )
-    # ============================ 我添加的修改 E ============================
-
     return LaunchDescription(
         [
             declare_world_cmd,
@@ -203,17 +181,5 @@ def generate_launch_description():
             joint_state_broadcaster_spawner,
             ackermann_steering_controller_spawner,
             obstacle_controller,
-            # ============================ 我添加的修改 S ============================
-            # 步骤2: 将任务节点添加到启动描述中
-            task_executor_node,
-            # 步骤3: 注册一个事件处理器
-            # 当检测到 task_executor_node 退出时，触发一个 Shutdown 事件，关闭整个仿真
-            RegisterEventHandler(
-                event_handler=OnProcessExit(
-                    target_action=task_executor_node,
-                    on_exit=[EmitEvent(event=Shutdown(reason="Task completed"))],
-                )
-            ),
-            # ============================ 我添加的修改 E ============================
         ]
     )
