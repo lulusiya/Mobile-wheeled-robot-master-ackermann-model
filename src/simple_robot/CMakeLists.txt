@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 cmake_minimum_required(VERSION 3.8)
 project(simple_robot)
 
@@ -15,9 +16,9 @@ install(
 
 # Install Python scripts
 install(PROGRAMS
-  scripts/move_obstacles.py
   scripts/task_executor.py
   scripts/path_follower.py
+  scripts/move_obstacles.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

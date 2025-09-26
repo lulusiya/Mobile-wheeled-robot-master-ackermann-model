@@ -3,9 +3,13 @@
 
     <gazebo>
         <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+            
+            <!-- 这是加载控制器配置文件的参数 -->
             <parameters>$(find simple_robot)/config/controllers.yaml</parameters>
+           
+            <initial_orientation_as_reference>true</initial_orientation_as_reference>
+            
         </plugin>
     </gazebo>
-
+    
 </robot>
-

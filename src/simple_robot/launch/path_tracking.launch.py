@@ -17,7 +17,7 @@ def generate_launch_description():
     pkg_share = FindPackageShare(package="simple_robot").find("simple_robot")
 
     # Default world file
-    default_world = os.path.join(pkg_share, "worlds", "empty.world")
+    default_world = os.path.join(pkg_share, "worlds", "my_map.world")
 
     # Read the first two points from path.txt to set robot start position and orientation
     # 获取工作空间根目录下的path.txt文件
